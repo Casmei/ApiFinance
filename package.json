@@ -1,27 +1,19 @@
 {
   "name": "api-finance",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "start": "node src/server.js",
-    "test": "jest",
-    "secure-mode": "jest --watch --verbose=true",
-    "lint": "eslint src/** test/** --fix"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "eslint": "^8.17.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "jest": "23.6.0",
-    "supertest": "3.3.0"
+    "start": "node ./bin/www",
+    "test": "jest"
   },
   "dependencies": {
-    "body-parser": "1.18.3",
-    "consign": "^0.1.6",
-    "express": "^4.18.1"
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "morgan": "~1.9.1"
+  },
+  "devDependencies": {
+    "jest": "23.6.0",
+    "supertest": "3.3.0"
   }
 }

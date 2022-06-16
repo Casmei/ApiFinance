@@ -1,8 +1,8 @@
 const request = require('supertest');
 
-const app = require('../src/app');
+const app = require('../app')
 
-test('Deve verificar se o servidor está rodando', async () => {
-    const response = await request(app).get('/')
-    expect(response.status).toBe(200);
+test('Deve responder no end-point raiz', async () => {
+    const res = await request(app).get('/');
+    expect(res.status).toBe(200);
 })
