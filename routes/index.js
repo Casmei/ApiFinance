@@ -1,21 +1,14 @@
+const controller = require('../controllers/UsersController')
 var express = require('express');
+
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', (req, res) => {
-    res.status(200).send();
-});
 
-router.get('/users', (req, res) => {
-    const users = [
-        {
-            name: "Jonh Doe",
-            mail: "jonh@mail.com"
-        }
-    ]
 
-    res.json(200, users);
+router.get('/', controller.indexPage);
 
-})
+router.get('/users', controller.allUsers)
+
+router.post('/users', controller.createUsers)
 
 module.exports = router;
