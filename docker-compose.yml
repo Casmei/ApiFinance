@@ -4,28 +4,35 @@ services:
 
   mariadb:
     image: mariadb
+    container_name: finance-mariadb
     environment:
       - MARIADB_DATABASE=${DB_DATABASE}
       - MARIADB_ROOT_PASSWORD=${DB_PASSWORD_ROOT}
       - MARIADB_USER=${DB_USERNAME}
       - MARIADB_PASSWORD=${DB_PASSWORD}
-    ports:
-      - "3306:3306"
     volumes:
       - .docker/dbdata:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - database-network
 
   finance-api:
     image: node:alpine
-    container_name: finance_api
+    container_name: finance-api
     volumes:
-      - ./.:/home/app
+      - .:/usr/app
     build: 
       dockerfile: Dockerfile
       context: .
-    ports:
-      - '3000:3000'
     environment:
       - NODE_ENV=development
     depends_on: 
       - mariadb
-    command: sh -c "npm start"
+    networks:
+      - database-network
+    command: sh -c "npm run dev" 
+  
+networks:
+  database-network:
+    driver: bridge
