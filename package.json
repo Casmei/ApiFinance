@@ -6,17 +6,14 @@
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
     "test": "jest",
-    "secure-mode": "jest --watch --verbose=true"
+    "secure-mode": "jest --watch"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^16.0.1",
     "express": "~4.16.1",
-    "mariadb": "^3.0.0",
-    "morgan": "~1.9.1",
-    "mysql2": "^2.3.3",
-    "sequelize": "^6.21.0"
+    "morgan": "~1.9.1"
   },
   "devDependencies": {
     "jest": "23.6.0",
