@@ -4,7 +4,7 @@ services:
 
   database:
     image: mysql:8.0
-    container_name: finance-mysql
+    container_name: seubarriga-mysql
     restart: always
     environment: 
       - MYSQL_ROOT_PASSWORD=root
@@ -14,16 +14,15 @@ services:
     networks:
       - database-network
 
-  finance-api:
+  seubarriga-api:
     image: node:alpine
-    container_name: finance-api
+    container_name: seubarriga-api
     volumes:
       - .:/usr/app
+    ports:
+      - '3000:3000'
     build: 
       dockerfile: Dockerfile
-      context: .
-    environment:
-      - NODE_ENV=development
     depends_on: 
       - database
     networks:

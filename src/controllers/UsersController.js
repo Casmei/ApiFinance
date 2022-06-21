@@ -1,5 +1,4 @@
-const Prima = require('@prisma/client')
-const prisma = new Prima.PrismaClient()
+
 exports.indexPage = async (req, res) => {
     res.status(200).send();
 };
