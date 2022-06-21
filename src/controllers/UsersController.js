@@ -1,6 +1,6 @@
 
 exports.indexPage = async (req, res) => {
-    res.status(200).send();
+    res.status(200).res({ 'message': 'Welcome to the index page' });
 };
 
 exports.allUsers = async (req, res) => {
