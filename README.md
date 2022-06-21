@@ -1,5 +1,5 @@
 # Projeto em desenvolvimento
-O projeto consiste em uma aplicação de finançar na qual é aplicada conceitos de  Desenvolvimento Orientado por Testes (Test Driven Development).
+O projeto consiste em uma aplicação de finanças no qual são aplicados conceitos de  Desenvolvimento Orientado por Testes (Test Driven Development).
 
 # Instalação
 
