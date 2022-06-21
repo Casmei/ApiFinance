@@ -17,10 +17,14 @@ services:
   seubarriga-api:
     image: node:alpine
     container_name: seubarriga-api
+    environment: 
+      - DATABASE_URL=${DB_DIALECT}://${DB_USERNAME}:${DB_PASSWORD_ROOT}@database:${DB_PORT}/${DB_NAME}
     volumes:
       - .:/usr/app
     ports:
       - '3000:3000'
+      # Prisma Studio
+      - '5555:5555'
     build: 
       dockerfile: Dockerfile
     depends_on: 
@@ -28,7 +32,7 @@ services:
     networks:
       - database-network
     command: sh -c "npm run dev" 
-  
+
 networks:
   database-network:
     driver: bridge

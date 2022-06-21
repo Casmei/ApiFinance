@@ -1,12 +1,24 @@
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
 exports.indexPage = async (req, res) => {
-    res.status(200).res({ 'message': 'Welcome to the index page' });
+    res.status(200).send({ 'message': 'Welcome to the index page' });
 };
 
 exports.allUsers = async (req, res) => {
-    res.status(200).json(result);
+    const users = await prisma.user.findMany();
+    res.status(200).json(users);
 };
 
-exports.createUsers = (req, res) => {
-    res.status(201).json(req.body);
+exports.createUser = async (req, res) => {
+    const { name, email, password } = req.body;
+    const user = await prisma.user.create({
+        data: {
+            name,
+            email,
+            password
+        }
+    });
+    res.status(201).json(user);
 };
+
