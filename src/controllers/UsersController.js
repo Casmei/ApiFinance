@@ -11,7 +11,10 @@ exports.allUsers = async (req, res) => {
 
 exports.createUser = async (req, res) => {
     const { name, email, password } = req.body;
-    const user = service.createUser({ name, email, password });
+    const user = await service.createUser({ name, email, password });
+    if (user.error) {
+        return res.status(400).json(user);
+    }
     res.status(201).json(user);
 };
 

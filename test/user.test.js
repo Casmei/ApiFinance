@@ -9,8 +9,7 @@ generateCode = (n = 3) => {
         text += possible.charAt(Math.floor(Math.random() * possible.length));
     }
     return text;
-
-}
+};
 
 let email = generateCode() + "@test.com";
 let password = generateCode(6);
@@ -26,6 +25,34 @@ test("Deve listar todos os usuários", async () => {
 
 test("Deve criar um novo usuário", async () => {
     const res = await request(app).post("/users")
-        .send({ name: "Tiago de Castro Lima", email: email, password: password });
+        .send({ name: "Tiago de Castro Lima", email, password });
     expect(res.status).toBe(201);
 });
+
+test("Não deve inserir usuário sem nome", async () => {
+    const res = await request(app).post('/users')
+        .send({ email, password });
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe("Nome é um atributo obrigatório");
+});
+
+test("Não deve inserir usuário sem email", async () => {
+    const res = await request(app).post('/users')
+        .send({ name: "Tiago de Castro Lima", password });
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe("Email é um atributo obrigatório");
+});
+
+test("Não deve inserir usuário sem senha", async () => {
+    const res = await request(app).post('/users')
+        .send({ name: "Tiago de Castro Lima", email });
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe("Senha é um atributo obrigatório");
+});
+
+test("Não deve inserir usuário com email existente", async () => {
+    const res = await request(app).post('/users')
+        .send({ name: "Tiago de Castro Lima", email, password })
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe("Já existe um usuário com este email");
+})
