@@ -29,11 +29,9 @@ test.skip('Deve responder no end-point raiz de account', () => {
         })
 })
 
-
 test('Deve inserir uma conta com sucesso', async () => {
     const res = await request(app).post(mainRoute)
         .send({ name: '#Acc 1', user_id: user.id });
     expect(res.status).toBe(201);
     expect(res.body.name).toBe('#Acc 1');
-
 })
