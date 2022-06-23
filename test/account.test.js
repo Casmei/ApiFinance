@@ -1,7 +1,9 @@
+const { PrismaClient } = require('@prisma/client');
 const request = require('supertest');
 const app = require('../app');
 const service = require('../src/service/UserService');
 
+const prisma = new PrismaClient();
 const mainRoute = '/account';
 let user;
 
@@ -23,7 +25,7 @@ beforeAll(async () => {
 });
 
 test.skip('Deve responder no end-point raiz de account', () => {
-    request(app).get('/account')
+    request(app).get(mainRoute)
         .then(() => {
             expect(res.status).toBe(200);
         })
@@ -35,3 +37,15 @@ test('Deve inserir uma conta com sucesso', async () => {
     expect(res.status).toBe(201);
     expect(res.body.name).toBe('#Acc 1');
 })
+
+test('Deve listar todas as contas', async () => {
+    await prisma.account
+        .create({
+            data: {
+                name: 'Acc List',
+                userId: user.id
+            }
+        });
+    const res = await request(app).get(mainRoute);
+    expect(res.status).toBe(200);
+});
