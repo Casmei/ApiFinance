@@ -7,7 +7,7 @@ var router = express.Router();
 router.get('/', controllerUsers.indexPage);
 
 router.route('/account')
-    .get(controllerAccount.indexPage)
+    .get(controllerAccount.findAll)
     .post(controllerAccount.createAccount);
 
 module.exports = router;
