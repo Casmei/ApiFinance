@@ -5,16 +5,9 @@ const express = require('express');
 var router = express.Router();
 
 router.get('/', controllerUsers.indexPage);
-router.get('/account', controllerAccount.indexPage);
 
-
-
-
-// router.route('/account')
-//     .post(controller.createAccount);
-// .get(controller.allUsers)
-
-
-
+router.route('/account')
+    .get(controllerAccount.indexPage)
+    .post(controllerAccount.createAccount);
 
 module.exports = router;
