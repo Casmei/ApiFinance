@@ -1,7 +1,8 @@
 const service = require('../service/AccountService')
 
-exports.indexPage = (req, res) => {
-    return res.status(200);
+exports.findAll = async (req, res) => {
+    const result = await service.getAll;
+    return res.status(200).json(result);
 };
 
 exports.createAccount = async (req, res) => {
