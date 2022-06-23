@@ -1,6 +1,6 @@
 const request = require('supertest');
-const app = require('../app')
-const service = require('../src/service/UserService')
+const app = require('../app');
+const service = require('../src/service/UserService');
 
 const mainRoute = '/account';
 let user;
@@ -19,18 +19,21 @@ let password = generateCode(6);
 
 beforeAll(async () => {
     const res = await service.createUser({ name: 'Pedro Gomes', email, password });
-    user = { ...res[0] };
+    user = res;
 });
 
-test('Deve responder no end-point raiz de account', async () => {
-    const res = await request(app).get('/account');
-    expect(res.status).toBe(200);
+test.skip('Deve responder no end-point raiz de account', () => {
+    request(app).get('/account')
+        .then(() => {
+            expect(res.status).toBe(200);
+        })
 })
 
 
-test.skip('Deve inserir uma conta com sucesso', async () => {
+test('Deve inserir uma conta com sucesso', async () => {
     const res = await request(app).post(mainRoute)
-        .send({ name: '#Acc 1', user_id: user.id })
+        .send({ name: '#Acc 1', user_id: user.id });
     expect(res.status).toBe(201);
     expect(res.body.name).toBe('#Acc 1');
+
 })
