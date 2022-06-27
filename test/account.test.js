@@ -58,3 +58,18 @@ test('Deve retornar uma conta por id', async () => {
     expect(res.body.name).toBe("Acc Id");
     expect(res.body.userId).toBe(account.userId);
 });
+
+test('Deve alterar uma conta', async () => {
+    const account = await prisma.account
+        .create({
+            data: {
+                name: 'Acc Update',
+                userId: user.id
+            }
+        });
+
+    const res = await request(app).put(`${mainRoute}/${account.id}`)
+        .send({ name: 'Acc Updated' });
+    expect(res.status).toBe(200);
+    expect(res.body.name).toBe("Acc Updated");
+})
