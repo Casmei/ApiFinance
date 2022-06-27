@@ -73,3 +73,16 @@ test('Deve alterar uma conta', async () => {
     expect(res.status).toBe(200);
     expect(res.body.name).toBe("Acc Updated");
 })
+
+test('Deve remover uma conta', async () => {
+    const account = await prisma.account
+        .create({
+            data: {
+                name: 'Acc Delete',
+                userId: user.id
+            }
+        });
+    const res = await request(app).delete(`${mainRoute}/${account.id}`)
+        .send(account)
+    expect(res.status).toBe(204);
+})
