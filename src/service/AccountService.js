@@ -23,3 +23,15 @@ exports.createAccount = async ({ name, user_id }) => {
         }
     })
 }
+
+exports.updateById = async ({ id }, { name }) => {
+    return await prisma.account.update({
+        where: {
+            id
+        },
+        data: {
+            name
+        }
+    })
+}
+
