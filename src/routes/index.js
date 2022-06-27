@@ -12,6 +12,8 @@ router.route('/account')
 
 router.route('/account/:id')
     .get(controllerAccount.findById)
+    .put(controllerAccount.updateById)
+    .delete(controllerAccount.deleteById);
 
 
 module.exports = router;
