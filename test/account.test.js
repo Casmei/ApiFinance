@@ -24,19 +24,12 @@ beforeAll(async () => {
     user = res;
 });
 
-test.skip('Deve responder no end-point raiz de account', () => {
-    request(app).get(mainRoute)
-        .then(() => {
-            expect(res.status).toBe(200);
-        })
-})
-
 test('Deve inserir uma conta com sucesso', async () => {
     const res = await request(app).post(mainRoute)
         .send({ name: '#Acc 1', user_id: user.id });
     expect(res.status).toBe(201);
     expect(res.body.name).toBe('#Acc 1');
-})
+});
 
 test('Deve listar todas as contas', async () => {
     await prisma.account
@@ -48,4 +41,20 @@ test('Deve listar todas as contas', async () => {
         });
     const res = await request(app).get(mainRoute);
     expect(res.status).toBe(200);
+    expect(res.body.length).toBeGreaterThan(0);
+});
+
+test('Deve retornar uma conta por id', async () => {
+    const account = await prisma.account
+        .create({
+            data: {
+                name: 'Acc Id',
+                userId: user.id
+            }
+        });
+
+    const res = await request(app).get(`${mainRoute}/${account.id}`);
+    expect(res.status).toBe(200);
+    expect(res.body.name).toBe("Acc Id");
+    expect(res.body.userId).toBe(account.userId);
 });
