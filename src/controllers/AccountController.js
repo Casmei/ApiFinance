@@ -1,7 +1,13 @@
 const service = require('../service/AccountService')
 
 exports.findAll = async (req, res) => {
-    const result = await service.getAll;
+    const result = await service.findAll();
+    return res.status(200).json(result);
+};
+
+exports.findById = async (req, res) => {
+    const id = req.params;
+    const result = await service.findById(id);
     return res.status(200).json(result);
 };
 
