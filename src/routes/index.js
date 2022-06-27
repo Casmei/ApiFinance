@@ -10,4 +10,8 @@ router.route('/account')
     .get(controllerAccount.findAll)
     .post(controllerAccount.createAccount);
 
+router.route('/account/:id')
+    .get(controllerAccount.findById)
+
+
 module.exports = router;
