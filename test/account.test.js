@@ -55,6 +55,10 @@ test('Deve listar todas as contas', async () => {
     expect(res.body.length).toBeGreaterThan(0);
 });
 
+test.skip('Deve listar apenas as contas do usuário', async () => {
+
+});
+
 test('Deve retornar uma conta por id', async () => {
     const account = await prisma.account
         .create({
@@ -70,6 +74,9 @@ test('Deve retornar uma conta por id', async () => {
     expect(res.body.userId).toBe(account.userId);
 });
 
+test.skip('Não deve retornar uma conta de outro usuário', async () => {
+});
+
 test('Deve alterar uma conta', async () => {
     const account = await prisma.account
         .create({
@@ -83,7 +90,10 @@ test('Deve alterar uma conta', async () => {
         .send({ name: 'Acc Updated' });
     expect(res.status).toBe(200);
     expect(res.body.name).toBe("Acc Updated");
-})
+});
+
+test.skip('Não deve alterar uma conta de outro usuário', async () => {
+});
 
 test('Deve remover uma conta', async () => {
     const account = await prisma.account
@@ -97,3 +107,6 @@ test('Deve remover uma conta', async () => {
         .send(account)
     expect(res.status).toBe(204);
 })
+
+test.skip('Não deve remover uma conta de outro usuário', async () => {
+});
