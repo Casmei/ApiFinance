@@ -31,6 +31,17 @@ test('Deve inserir uma conta com sucesso', async () => {
     expect(res.body.name).toBe('#Acc 1');
 });
 
+test('Não deve inserir uma conta sem nome', async () => {
+    const res = await request(app).post(mainRoute)
+        .send({ user_id: user.id });
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('Nome é um atributo obrigatório');
+});
+
+test.skip('Não deve inserir uma conta de nome duplicado, para o mesmo usuário', async () => {
+
+});
+
 test('Deve listar todas as contas', async () => {
     await prisma.account
         .create({
