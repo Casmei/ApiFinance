@@ -16,6 +16,9 @@ exports.findAll = async (filter = {}) => {
             }
         }
     );
+exports.findOne = async (filter = {}) => {
+    return await prisma.user.findFirst({ where: filter });
+}
 }
 
 exports.createUser = async ({ name, email, password }) => {
