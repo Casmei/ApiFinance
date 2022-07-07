@@ -17,4 +17,10 @@ app.use(cookieParser());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+app.use((err, req, res, next) => {
+    const { name, messagem } = err;
+    if (name === 'ValidationError') res.status(400).json({ error: messagem })
+    else res.status(500);
+});
+
 module.exports = app;
