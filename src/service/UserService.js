@@ -4,17 +4,6 @@ const bcrypt = require('bcrypt-nodejs');
 
 const prisma = new PrismaClient
 
-exports.findAll = async (filter = {}) => {
-    return await prisma.user.findMany(
-        {
-            select: {
-                id: true,
-                name: true,
-                email: true
-            },
-            where: {
-                email: filter
-            }
 exports.findAll = async () => {
     return await prisma.user.findMany({
         select: {
@@ -39,8 +28,6 @@ exports.createUser = async ({ name, email, password }) => {
     if (!email) throw new validationError("Email é um atributo obrigatório")
     if (!password) throw new validationError("Senha é um atributo obrigatório")
 
-    const user = await this.findAll(email)
-    if (user && user.length > 0) throw new validationError("Já existe um usuário com este email")
 
     return await prisma.user.create({
         select: {
