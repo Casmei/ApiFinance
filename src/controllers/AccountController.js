@@ -12,9 +12,13 @@ exports.findById = async (req, res) => {
 };
 
 exports.createAccount = async (req, res) => {
-    const result = await service.createAccount(req.body);
-    //if (account.error) return res.status(400).json(account.error)
-    return await res.status(201).json(result);
+    try {
+        const result = await service.createAccount(req.body);
+        return await res.status(201).json(result);
+    } catch (err) {
+        console.log(err)
+        return res.status(400).json({ error: err.messagem })
+    }
 };
 
 exports.updateById = async (req, res) => {
