@@ -6,6 +6,11 @@ const prisma = new PrismaClient
 exports.findAll = async (filter = {}) => {
     return await prisma.user.findMany(
         {
+            select: {
+                id: true,
+                name: true,
+                email: true
+            },
             where: {
                 email: filter
             }
@@ -20,11 +25,18 @@ exports.createUser = async ({ name, email, password }) => {
 
     const user = await this.findAll(email)
     if (user && user.length > 0) throw new validationError("Já existe um usuário com este email")
+
     return await prisma.user.create({
+        select: {
+            id: true,
+            name: true,
+            email: true
+        },
         data: {
             name,
             email,
             password
         }
+
     })
 }
