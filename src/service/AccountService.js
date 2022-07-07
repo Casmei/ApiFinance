@@ -1,4 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
+const validationError = require("../errors/ValidationError")
+
 const prisma = new PrismaClient()
 
 exports.findAll = () => {
@@ -16,6 +18,7 @@ exports.findById = async (filter) => {
 }
 
 exports.createAccount = async ({ name, user_id }) => {
+    if (!name) throw new validationError("Nome é um atributo obrigatório");
     return await prisma.account.create({
         data: {
             name,
