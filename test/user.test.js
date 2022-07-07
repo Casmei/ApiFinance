@@ -1,5 +1,6 @@
 const request = require("supertest");
 const app = require("../app");
+const service = require('../src/service/UserService');
 
 
 generateCode = (n = 3) => {
@@ -32,12 +33,11 @@ test("Deve criar um novo usuário", async () => {
 
 test('Deve armazenar senha criptografada', async () => {
     let email = generateCode() + "@test.com";
-
     const res = await request(app).post('/users')
         .send({ name: 'Pedro Gomes', email, password: 123456 });
 
     const { id } = res.body;
-    const user = await service.findOne({ id });
+    const user = await service.findOne({ id: id });
     expect(res.status).toBe(201);
     expect(user.password).not.toBe(password);
     expect(user.password).not.toBeUndefined();
