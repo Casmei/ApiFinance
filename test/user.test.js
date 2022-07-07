@@ -27,7 +27,23 @@ test("Deve criar um novo usuário", async () => {
     const res = await request(app).post("/users")
         .send({ name: "Tiago de Castro Lima", email, password });
     expect(res.status).toBe(201);
+    expect(res.body).not.toHaveProperty('password');
 });
+
+test('Deve armazenar senha criptografada', async () => {
+    let email = generateCode() + "@test.com";
+
+    const res = await request(app).post('/users')
+        .send({ name: 'Pedro Gomes', email, password: 123456 });
+
+    const { id } = res.body;
+    const user = await service.findOne({ id });
+    expect(res.status).toBe(201);
+    expect(user.password).not.toBe(password);
+    expect(user.password).not.toBeUndefined();
+
+
+})
 
 test("Não deve inserir usuário sem nome", async () => {
     const res = await request(app).post('/users')
