@@ -10,9 +10,8 @@ exports.allUsers = async (req, res) => {
 };
 
 exports.createUser = async (req, res, next) => {
-    const { name, email, password } = req.body;
     try {
-        const user = await service.createUser({ name, email, password });
+        const user = await service.createUser(req.body);
         res.status(201).json(user);
     } catch (err) {
         return next(err);
