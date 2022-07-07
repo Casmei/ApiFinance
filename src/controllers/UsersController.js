@@ -11,9 +11,11 @@ exports.allUsers = async (req, res) => {
 
 exports.createUser = async (req, res) => {
     const { name, email, password } = req.body;
-    const user = await service.createUser({ name, email, password });
-    if (user.error) {
-        return res.status(400).json(user);
+    try {
+        const user = await service.createUser({ name, email, password });
+        res.status(201).json(user);
+
+    } catch (err) {
+        return res.status(400).json({ error: err.messagem });
     }
-    res.status(201).json(user);
 };
