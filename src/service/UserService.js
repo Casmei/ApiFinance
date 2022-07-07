@@ -14,8 +14,16 @@ exports.findAll = async (filter = {}) => {
             where: {
                 email: filter
             }
+exports.findAll = async () => {
+    return await prisma.user.findMany({
+        select: {
+            id: true,
+            name: true,
+            email: true
         }
-    );
+    });
+}
+
 exports.findOne = async (filter = {}) => {
     return await prisma.user.findFirst({ where: filter });
 }
