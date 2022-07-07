@@ -11,13 +11,12 @@ exports.findById = async (req, res) => {
     return res.status(200).json(result);
 };
 
-exports.createAccount = async (req, res) => {
+exports.createAccount = async (req, res, next) => {
     try {
         const result = await service.createAccount(req.body);
         return await res.status(201).json(result);
     } catch (err) {
-        console.log(err)
-        return res.status(400).json({ error: err.messagem })
+        return next(err);
     }
 };
 
