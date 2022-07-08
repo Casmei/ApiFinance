@@ -1,11 +1,10 @@
-const service = require('../service/UserService');
-const validationError = require("../errors/ValidationError");
 const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jwt-simple');
 
+const validationError = require("../errors/ValidationError");
+const service = require('../service/UserService');
 
 exports.singin = async (req, res, next) => {
-
     const user = await service.findOne({ email: req.body.email });
 
     try {
@@ -16,8 +15,7 @@ exports.singin = async (req, res, next) => {
                 name: user.name,
                 email: user.email
             }
-            // TODO Criar um Env da Secret Key
-            const token = jwt.encode(payload, '$3dsFs');
+            const token = jwt.encode(payload, process.env.SECRET_KEY);
             res.status(200).json({ token });
         } else throw new validationError('Senha ou Usuário inválidos');
     }
