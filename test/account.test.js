@@ -2,38 +2,36 @@ const { PrismaClient } = require('@prisma/client');
 const request = require('supertest');
 const app = require('../app');
 const service = require('../src/service/UserService');
+const jwt = require('jwt-simple');
+
 
 const prisma = new PrismaClient();
 const mainRoute = '/account';
 let user;
 
-generateCode = (n = 3) => {
-    let text = '';
-    let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (let i = 0; i < n; i++) {
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    return text;
-};
-
-let email = generateCode() + "@test.com";
-let password = generateCode(6);
+let email = Date.now() + "@test.com";
+let password = '123456';
 
 beforeAll(async () => {
     const res = await service.createUser({ name: 'Pedro Gomes', email, password });
     user = res;
+    user.token = jwt.encode(user, process.env.SECRET_KEY)
 });
 
 test('Deve inserir uma conta com sucesso', async () => {
     const res = await request(app).post(mainRoute)
-        .send({ name: '#Acc 1', user_id: user.id });
+        .send({ name: '#Acc 1', user_id: user.id })
+        .set('authorization', `bearer ${user.token}`)
+
     expect(res.status).toBe(201);
     expect(res.body.name).toBe('#Acc 1');
 });
 
 test('Não deve inserir uma conta sem nome', async () => {
     const res = await request(app).post(mainRoute)
-        .send({ user_id: user.id });
+        .send({ user_id: user.id })
+        .set('authorization', `bearer ${user.token}`)
+
     expect(res.status).toBe(400);
     expect(res.body.error).toBe('Nome é um atributo obrigatório');
 });
@@ -50,7 +48,9 @@ test('Deve listar todas as contas', async () => {
                 userId: user.id
             }
         });
-    const res = await request(app).get(mainRoute);
+    const res = await request(app).get(mainRoute)
+        .set('authorization', `bearer ${user.token}`)
+
     expect(res.status).toBe(200);
     expect(res.body.length).toBeGreaterThan(0);
 });
@@ -68,7 +68,9 @@ test('Deve retornar uma conta por id', async () => {
             }
         });
 
-    const res = await request(app).get(`${mainRoute}/${account.id}`);
+    const res = await request(app).get(`${mainRoute}/${account.id}`)
+        .set('authorization', `bearer ${user.token}`)
+
     expect(res.status).toBe(200);
     expect(res.body.name).toBe("Acc Id");
     expect(res.body.userId).toBe(account.userId);
@@ -87,7 +89,9 @@ test('Deve alterar uma conta', async () => {
         });
 
     const res = await request(app).put(`${mainRoute}/${account.id}`)
-        .send({ name: 'Acc Updated' });
+        .send({ name: 'Acc Updated' })
+        .set('authorization', `bearer ${user.token}`)
+
     expect(res.status).toBe(200);
     expect(res.body.name).toBe("Acc Updated");
 });
@@ -105,6 +109,8 @@ test('Deve remover uma conta', async () => {
         });
     const res = await request(app).delete(`${mainRoute}/${account.id}`)
         .send(account)
+        .set('authorization', `bearer ${user.token}`)
+
     expect(res.status).toBe(204);
 })
 
