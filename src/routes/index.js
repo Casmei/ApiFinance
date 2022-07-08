@@ -1,8 +1,11 @@
 const controllerAccount = require('../controllers/AccountController');
+const controllerAuth = require('../controllers/AuthController');
 const controllerUsers = require('../controllers/UsersController');
 const express = require('express');
 
 var router = express.Router();
+
+router.post('/auth/singin', controllerAuth.singin)
 
 router.get('/', controllerUsers.indexPage);
 
