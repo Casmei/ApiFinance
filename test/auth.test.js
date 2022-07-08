@@ -2,6 +2,17 @@ const request = require("supertest");
 const app = require("../app");
 const service = require('../src/service/UserService');
 
+test('Deve criar usuário via singup', async () => {
+    const res = await request(app).post('/auth/singup')
+        .send({ name: "Ana Clara", email: `${Date.now()}@auth.com`, password: '35165' });
+    expect(res.status).toBe(201);
+    expect(res.body.name).toBe("Ana Clara");
+    expect(res.body).toHaveProperty("email");
+    expect(res.body).not.toHaveProperty("password");
+
+
+});
+
 test('Deve receber token ao logar', async () => {
     const email = `${Date.now()}@auth.com`;
     return service.createUser(
